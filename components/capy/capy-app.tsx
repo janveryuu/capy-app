@@ -28,6 +28,7 @@ export function CapyApp() {
   const [view, setView] = useState<View>('home')
   const [journal, setJournal] = useState<MoodEntry[]>(MOOD_JOURNAL)
   const [heatmap, setHeatmap] = useState<(number | null)[][]>(() => buildHeatmap(12))
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
 
   const handleLogMood = (mood: Mood, tags: string[], note: string) => {
     // 1. Add to journal
@@ -92,7 +93,7 @@ export function CapyApp() {
             
             {session ? (
               <button 
-                onClick={() => signOut()}
+                onClick={() => setShowLogoutConfirm(true)}
                 className="rounded-full bg-secondary px-4 py-1.5 text-xs font-bold text-secondary-foreground shadow-sm transition-colors hover:bg-secondary/80"
               >
                 Log out
@@ -126,6 +127,48 @@ export function CapyApp() {
           </AnimatePresence>
         </main>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      <AnimatePresence>
+        {showLogoutConfirm && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/20 px-4 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              className="w-full max-w-sm rounded-[2rem] border border-border/50 bg-card p-6 shadow-xl"
+            >
+              <div className="flex flex-col items-center gap-4 text-center">
+                <div className="relative size-20 overflow-hidden rounded-full border-4 border-card shadow-sm">
+                  <Image src="/capymascot-login.png" alt="Capy" fill className="object-cover" />
+                </div>
+                <div>
+                  <h3 className="font-heading text-2xl font-bold tracking-tight text-foreground">
+                    Leaving so soon?
+                  </h3>
+                  <p className="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">
+                    Capy will be right here waiting to hear about your next little adventure. Are you sure you want to log out?
+                  </p>
+                </div>
+                <div className="mt-2 flex w-full gap-3">
+                  <button
+                    onClick={() => setShowLogoutConfirm(false)}
+                    className="flex-1 rounded-full bg-secondary py-2.5 text-sm font-bold text-secondary-foreground shadow-sm transition-colors hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    Stay
+                  </button>
+                  <button
+                    onClick={() => signOut()}
+                    className="flex-1 rounded-full bg-destructive/10 py-2.5 text-sm font-bold text-destructive shadow-sm transition-colors hover:bg-destructive/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive/60"
+                  >
+                    Log out
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Floating bottom nav */}
       <nav className="fixed inset-x-0 bottom-5 z-50 flex justify-center px-4">

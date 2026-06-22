@@ -189,3 +189,4 @@
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
+@keyframes capy-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } } @keyframes capy-bob { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-6px) rotate(1.5deg); } } @keyframes capy-fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } } .animate-capy-float { animation: capy-float 6s ease-in-out infinite; } .animate-capy-bob { animation: capy-bob 5s ease-in-out infinite; } .animate-capy-fade-up { animation: capy-fade-up 0.5s ease-out both; }

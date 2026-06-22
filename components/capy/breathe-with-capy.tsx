@@ -140,7 +140,7 @@ export function BreatheWithCapy() {
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
           >
             {/* Capybara mascot with cross-fade between breathe-in and breathe-out */}
-            <AnimatePresence mode="crossfade">
+            <AnimatePresence mode="wait">
               <motion.div
                 key={mascotKey}
                 initial={{ opacity: 0, scale: 0.8 }}

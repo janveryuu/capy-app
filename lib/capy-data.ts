@@ -467,7 +467,7 @@ export const DESTINATION_POOL: Destination[] = [
     country: 'San Francisco, CA',
     src: '/destinations/golden-gate.jpg',
     note: 'Stunning 4K view of Golden Gate Bridge, an iconic must-see.',
-    tag: 'Nearby',
+    tag: 'Nature',
     temp: '16°',
   },
   {
