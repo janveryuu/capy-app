@@ -128,7 +128,7 @@ export function CapyApp() {
         </header>
 
         {/* Views */}
-        <main className="flex-1">
+        <main className="flex-1 pb-24 sm:pb-32">
           <AnimatePresence mode="wait">
             <motion.div
               key={view}
