@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Home, LineChart, Plane, MessageCircle, Leaf } from 'lucide-react'
 import Image from 'next/image'
@@ -12,6 +12,7 @@ import { Travel } from './travel'
 import { CapyChat } from './capy-chat'
 import { cn } from '@/lib/utils'
 import { MOOD_JOURNAL, buildHeatmap, type MoodEntry, type Mood } from '@/lib/capy-data'
+import { createMoodEntry, getMoodEntries, getPlannedTrips } from '@/app/actions'
 
 type View = 'home' | 'mood' | 'travel' | 'chat'
 
@@ -26,12 +27,20 @@ export function CapyApp() {
   const router = useRouter()
   const { data: session } = useSession()
   const [view, setView] = useState<View>('home')
-  const [journal, setJournal] = useState<MoodEntry[]>(MOOD_JOURNAL)
+  const [journal, setJournal] = useState<MoodEntry[]>([])
+  const [trips, setTrips] = useState<any[]>([])
+  
+  useEffect(() => {
+    if (session?.user?.id) {
+      getMoodEntries().then(setJournal).catch(console.error)
+      getPlannedTrips().then(setTrips).catch(console.error)
+    }
+  }, [session?.user?.id])
   const [heatmap, setHeatmap] = useState<(number | null)[][]>(() => buildHeatmap(12))
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
 
-  const handleLogMood = (mood: Mood, tags: string[], note: string) => {
-    // 1. Add to journal
+  const handleLogMood = async (mood: Mood, tags: string[], note: string) => {
+    // 1. Add to journal (optimistic)
     const newEntry: MoodEntry = {
       id: `j-new-${Date.now()}`,
       mood,
@@ -53,6 +62,15 @@ export function CapyApp() {
       }
       return next
     })
+    
+    // 3. Save to database
+    try {
+      await createMoodEntry(mood.id, tags, note)
+      const updated = await getMoodEntries()
+      setJournal(updated)
+    } catch (e) {
+      console.error("Failed to save mood:", e)
+    }
   }
 
   return (
@@ -119,7 +137,13 @@ export function CapyApp() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
             >
-              {view === 'home' && <Dashboard onGoTravel={() => setView('travel')} onLogMood={handleLogMood} />}
+              {view === 'home' && (
+                <Dashboard 
+                  onGoTravel={() => setView('travel')} 
+                  onLogMood={handleLogMood} 
+                  trips={trips}
+                />
+              )}
               {view === 'mood' && <MoodAnalytics onGoTravel={() => setView('travel')} journal={journal} heatmap={heatmap} />}
               {view === 'travel' && <Travel />}
               {view === 'chat' && <CapyChat />}

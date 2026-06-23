@@ -24,6 +24,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Explore } from './explore'
 import { CreateTripModal, type NewTripInput } from './create-trip-modal'
+import { createPlannedTrip, getPlannedTrips } from '@/app/actions'
 
 const fade = {
   hidden: { opacity: 0, y: 20 },
@@ -179,7 +180,12 @@ const SUBS: { id: SubView; label: string; icon: typeof Compass }[] = [
 
 export function Travel() {
   const [sub, setSub] = useState<SubView>('explore')
-  const [trips, setTrips] = useState<PlannedTrip[]>(PLANNED_TRIPS)
+  const [trips, setTrips] = useState<PlannedTrip[]>([])
+  
+  useEffect(() => {
+    getPlannedTrips().then(setTrips).catch(console.error)
+  }, [])
+
   const [modalOpen, setModalOpen] = useState(false)
   const [seedDestination, setSeedDestination] = useState<string | undefined>(undefined)
   const [selectedTrip, setSelectedTrip] = useState<PlannedTrip | null>(null)
@@ -189,7 +195,7 @@ export function Travel() {
     setModalOpen(true)
   }
 
-  const createTrip = (input: NewTripInput) => {
+  const createTrip = async (input: NewTripInput) => {
     const newTrip: PlannedTrip = {
       ...input,
       id: `${input.destination.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
@@ -197,6 +203,17 @@ export function Travel() {
     }
     setTrips((t) => [newTrip, ...t])
     setSub('trips')
+    
+    try {
+      await createPlannedTrip({
+        ...input,
+        note: input.note || '',
+      })
+      const updated = await getPlannedTrips()
+      setTrips(updated)
+    } catch (e) {
+      console.error('Failed to save trip:', e)
+    }
   }
 
   const upcoming = trips.filter((t) => t.status === 'planned')

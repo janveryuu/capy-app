@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { auth } from '@/auth'
 import { PrismaClient } from '@prisma/client'
-
+import { MOODS, type MoodEntry } from '@/lib/capy-data'
 // Use a global PrismaClient to avoid exhausting connections in dev
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
 const prisma = globalForPrisma.prisma || new PrismaClient()
@@ -28,14 +28,31 @@ export async function createMoodEntry(moodId: number, tags: string[], note?: str
   revalidatePath('/dashboard')
 }
 
-export async function getMoodEntries() {
+function formatRelativeTime(date: Date) {
+  const diff = Date.now() - date.getTime()
+  const minutes = Math.floor(diff / 60000)
+  if (minutes < 60) return `${minutes || 1} min ago`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours} hours ago`
+  return `${Math.floor(hours / 24)} days ago`
+}
+
+export async function getMoodEntries(): Promise<MoodEntry[]> {
   const session = await auth()
   if (!session?.user?.id) return []
 
-  return await prisma.moodEntry.findMany({
+  const dbEntries = await prisma.moodEntry.findMany({
     where: { userId: session.user.id },
     orderBy: { timestamp: 'desc' },
   })
+  
+  return dbEntries.map(db => ({
+    id: db.id,
+    mood: MOODS.find(m => m.id === db.moodId) || MOODS[2],
+    tags: db.tags,
+    note: db.note || '',
+    timestamp: formatRelativeTime(db.timestamp)
+  }))
 }
 
 /**
@@ -67,10 +84,21 @@ export async function getPlannedTrips() {
   const session = await auth()
   if (!session?.user?.id) return []
 
-  return await prisma.plannedTrip.findMany({
+  const trips = await prisma.plannedTrip.findMany({
     where: { userId: session.user.id },
     orderBy: { createdAt: 'desc' },
   })
+  
+  return trips.map(t => ({
+    id: t.id,
+    destination: t.destination,
+    country: t.country,
+    dateRange: t.dateRange,
+    emoji: t.emoji,
+    days: t.days,
+    note: t.note || '',
+    status: t.status as 'planned' | 'completed',
+  }))
 }
 
 /**

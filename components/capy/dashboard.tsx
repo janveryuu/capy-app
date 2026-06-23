@@ -49,10 +49,14 @@ function StatPill({
 export function Dashboard({
   onGoTravel,
   onLogMood,
+  trips = [],
 }: {
   onGoTravel: () => void
   onLogMood: (mood: Mood, tags: string[], note: string) => void
+  trips?: any[]
 }) {
+  const upcomingTrip = trips.find(t => t.status === 'planned') || UPCOMING_TRIP
+
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       {/* Greeting hero */}
@@ -113,14 +117,14 @@ export function Dashboard({
           </div>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="text-4xl" aria-hidden>
-              {UPCOMING_TRIP.emoji}
+              {upcomingTrip.emoji}
             </span>
             <h3 className="font-heading text-2xl font-bold text-foreground">
-              {UPCOMING_TRIP.destination}
+              {upcomingTrip.destination}
             </h3>
           </div>
           <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-            <MapPin className="size-4" /> {UPCOMING_TRIP.country} · {UPCOMING_TRIP.dateRange}
+            <MapPin className="size-4" /> {upcomingTrip.country} · {upcomingTrip.dateRange}
           </p>
 
           <div className="mt-auto pt-6">
@@ -128,7 +132,7 @@ export function Dashboard({
               <div className="flex items-end justify-between">
                 <div>
                   <p className="font-heading text-3xl font-bold text-matcha-foreground">
-                    {UPCOMING_TRIP.daysAway}
+                    {upcomingTrip.days || 0}
                   </p>
                   <p className="text-xs font-semibold text-matcha-foreground/80">
                     days until take-off
