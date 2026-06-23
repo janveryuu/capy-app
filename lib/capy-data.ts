@@ -830,79 +830,8 @@ export type MoodEntry = {
   timestamp: string
 }
 
-/** Seed journal — last 10 check-ins with realistic diversity. */
-export const MOOD_JOURNAL: MoodEntry[] = [
-  {
-    id: 'j1',
-    mood: MOODS[0],
-    tags: ['friends', 'food'],
-    note: 'Had brunch with Mei and tried that new matcha place. So warm.',
-    timestamp: '2 hours ago',
-  },
-  {
-    id: 'j2',
-    mood: MOODS[1],
-    tags: ['exercise'],
-    note: 'Morning yoga in the park — the sunrise was golden.',
-    timestamp: 'Yesterday, 8:15 AM',
-  },
-  {
-    id: 'j3',
-    mood: MOODS[2],
-    tags: ['work'],
-    note: 'Long meeting day. Survived it though.',
-    timestamp: '2 days ago',
-  },
-  {
-    id: 'j4',
-    mood: MOODS[0],
-    tags: ['friends', 'weather'],
-    note: 'Beach picnic with the crew. Perfect cloud-spotted sky.',
-    timestamp: '3 days ago',
-  },
-  {
-    id: 'j5',
-    mood: MOODS[3],
-    tags: ['sleep'],
-    note: 'Barely slept last night, brain wouldn\'t stop.',
-    timestamp: '4 days ago',
-  },
-  {
-    id: 'j6',
-    mood: MOODS[1],
-    tags: ['food', 'weather'],
-    note: 'Cozy rainy afternoon with homemade soup and a book.',
-    timestamp: '5 days ago',
-  },
-  {
-    id: 'j7',
-    mood: MOODS[4],
-    tags: ['work', 'sleep'],
-    note: 'Deadline crunch. Need a vacation.',
-    timestamp: '6 days ago',
-  },
-  {
-    id: 'j8',
-    mood: MOODS[1],
-    tags: ['exercise', 'friends'],
-    note: 'Evening run with Leo, then ramen. Best combo.',
-    timestamp: '1 week ago',
-  },
-  {
-    id: 'j9',
-    mood: MOODS[2],
-    tags: ['weather'],
-    note: 'Grey skies but a decent enough day.',
-    timestamp: '1 week ago',
-  },
-  {
-    id: 'j10',
-    mood: MOODS[0],
-    tags: ['sleep', 'food'],
-    note: 'Full 9 hours of sleep and pancakes for breakfast!',
-    timestamp: '9 days ago',
-  },
-]
+/** Seed journal — empty by default for real user. */
+export const MOOD_JOURNAL: MoodEntry[] = []
 
 /** Factor correlation data for the diverging bar chart (Feature 4). */
 export type MoodFactor = {
@@ -913,12 +842,12 @@ export type MoodFactor = {
 }
 
 export const MOOD_FACTORS: MoodFactor[] = [
-  { tag: 'friends', label: 'Friends', positive: 82, negative: 8 },
-  { tag: 'exercise', label: 'Exercise', positive: 74, negative: 5 },
-  { tag: 'sleep', label: 'Sleep', positive: 68, negative: 22 },
-  { tag: 'food', label: 'Food', positive: 60, negative: 12 },
-  { tag: 'weather', label: 'Weather', positive: 45, negative: 30 },
-  { tag: 'work', label: 'Work', positive: 25, negative: 65 },
+  { tag: 'friends', label: 'Friends', positive: 0, negative: 0 },
+  { tag: 'exercise', label: 'Exercise', positive: 0, negative: 0 },
+  { tag: 'sleep', label: 'Sleep', positive: 0, negative: 0 },
+  { tag: 'food', label: 'Food', positive: 0, negative: 0 },
+  { tag: 'weather', label: 'Weather', positive: 0, negative: 0 },
+  { tag: 'work', label: 'Work', positive: 0, negative: 0 },
 ]
 
 /** Gentle stats strip data (Feature 6). */
@@ -930,17 +859,15 @@ export type MoodStat = {
 }
 
 export const MOOD_STATS: MoodStat[] = [
-  { label: 'Current streak', value: 7, suffix: ' days', tone: 'bg-honey text-honey-foreground' },
-  { label: 'Longest streak', value: 23, suffix: ' days', tone: 'bg-matcha text-matcha-foreground' },
-  { label: 'Total check-ins', value: 142, suffix: '', tone: 'bg-caramel text-caramel-foreground' },
-  { label: 'Calmest day', value: 0, suffix: 'Saturday', tone: 'bg-secondary text-secondary-foreground' },
+  { label: 'Current streak', value: 0, suffix: ' days', tone: 'bg-honey text-honey-foreground' },
+  { label: 'Longest streak', value: 0, suffix: ' days', tone: 'bg-matcha text-matcha-foreground' },
+  { label: 'Total check-ins', value: 0, suffix: '', tone: 'bg-caramel text-caramel-foreground' },
+  { label: 'Calmest day', value: 0, suffix: '--', tone: 'bg-secondary text-secondary-foreground' },
 ]
 
 /** Capy's gentle insights (Feature 3). */
 export const MOOD_INSIGHTS: string[] = [
-  'Your weekends sparkle ✨ — your Saturday mood is 34% higher than weekdays.',
-  'Friends seem to lift your spirits the most. Maybe plan a hangout soon? 🤗',
-  'Your morning check-ins tend to be sunnier than evening ones. 🌅',
+  'Welcome to Capy! Start logging your moods to see gentle insights here. 🧋',
 ]
 
 /** Mood–Travel connection data (Feature 7). */
