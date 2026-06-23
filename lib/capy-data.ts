@@ -158,38 +158,13 @@ export type Trip = {
 }
 
 export const UPCOMING_TRIP: Trip = {
-  id: 'kyoto',
-  destination: 'Kyoto',
-  country: 'Japan',
-  dateRange: 'Apr 14 – Apr 21',
-  daysAway: 12,
-  emoji: '🍃',
-  itinerary: [
-    {
-      time: 'Day 1',
-      title: 'Arrival & onsen soak',
-      detail: 'Check in, then a long warm yuzu bath to wash off the flight.',
-      done: true,
-    },
-    {
-      time: 'Day 2',
-      title: 'Arashiyama bamboo grove',
-      detail: 'Slow morning stroll, matcha soft-serve, river boat at noon.',
-      done: true,
-    },
-    {
-      time: 'Day 3',
-      title: 'Fushimi Inari trail',
-      detail: 'Sunrise climb through the orange gates before the crowds.',
-      done: false,
-    },
-    {
-      time: 'Day 4',
-      title: 'Tea house & garden day',
-      detail: 'A gentle, unscheduled day to journal and just breathe.',
-      done: false,
-    },
-  ],
+  id: 'empty-trip',
+  destination: 'No trips yet',
+  country: 'Plan one!',
+  dateRange: '--',
+  daysAway: 0,
+  emoji: '🏕️',
+  itinerary: [],
 }
 
 /** Curated explore destinations for the Explore tab. */
@@ -716,48 +691,7 @@ export type PlannedTrip = {
   status: 'planned' | 'completed'
 }
 
-export const PLANNED_TRIPS: PlannedTrip[] = [
-  {
-    id: 'kyoto-spring',
-    destination: 'Kyoto',
-    country: 'Japan',
-    dateRange: 'Apr 14 – Apr 21',
-    emoji: '🍃',
-    days: 8,
-    note: 'Temples, tea houses, and a slow onsen day to recharge.',
-    status: 'planned',
-  },
-  {
-    id: 'hoian-lanterns',
-    destination: 'Hoi An',
-    country: 'Vietnam',
-    dateRange: 'Jun 02 – Jun 07',
-    emoji: '🏮',
-    days: 5,
-    note: 'Lantern nights, tailor shops, and riverside café mornings.',
-    status: 'planned',
-  },
-  {
-    id: 'okinawa-past',
-    destination: 'Okinawa',
-    country: 'Japan',
-    dateRange: 'Last Aug',
-    emoji: '🏝️',
-    days: 6,
-    note: 'Golden-hour beaches and the calmest sunset toes ever.',
-    status: 'completed',
-  },
-  {
-    id: 'gion-past',
-    destination: 'Gion',
-    country: 'Japan',
-    dateRange: 'Last Nov',
-    emoji: '🏮',
-    days: 3,
-    note: 'A short lantern wander through old wooden streets.',
-    status: 'completed',
-  },
-]
+export const PLANNED_TRIPS: PlannedTrip[] = []
 
 export type Memory = {
   id: string
