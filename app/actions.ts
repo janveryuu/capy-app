@@ -104,6 +104,25 @@ export async function getPlannedTrips() {
 /**
  * Memories
  */
+export async function createMemory(data: {
+  src: string
+  caption: string
+  location: string
+  rotate: number
+}) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Unauthorized")
+
+  await prisma.memory.create({
+    data: {
+      userId: session.user.id,
+      ...data,
+    }
+  })
+
+  revalidatePath('/travel')
+}
+
 export async function getMemories() {
   const session = await auth()
   if (!session?.user?.id) return []
