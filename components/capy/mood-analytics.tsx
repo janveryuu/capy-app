@@ -5,7 +5,6 @@ import { motion } from 'motion/react'
 import {
   CalendarHeart,
   TrendingUp,
-  Activity,
   Sparkles,
   Lightbulb,
   BarChart3,
@@ -14,8 +13,6 @@ import {
   Target,
   Hash,
   Calendar,
-  Plane,
-  ArrowRight,
 } from 'lucide-react'
 import {
   buildHeatmap,
@@ -27,7 +24,6 @@ import {
   MOOD_INSIGHTS,
   MOOD_FACTORS,
   MOOD_TAGS,
-  MOOD_TRAVEL_LINK,
   type MoodEntry,
 } from '@/lib/capy-data'
 import { cn } from '@/lib/utils'
@@ -394,120 +390,6 @@ function RecentReflections({ journal }: { journal: MoodEntry[] }) {
 }
 
 /* ═══════════════════════════════════════
-   Mood–Travel Connection (Feature 7)
-   ═══════════════════════════════════════ */
-function MiniSparkline({ data, className }: { data: number[]; className?: string }) {
-  const W = 120
-  const H = 36
-  const pad = 4
-  const min = Math.min(...data)
-  const max = Math.max(...data)
-  const range = max - min || 1
-  const points = data.map((v, i) => ({
-    x: pad + ((W - pad * 2) * i) / (data.length - 1),
-    y: pad + (H - pad * 2) * (1 - (v - min) / range),
-  }))
-  const d = smoothPath(points)
-
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} className={cn('h-auto', className)}>
-      <motion.path
-        d={d}
-        fill="none"
-        stroke="oklch(0.6 0.1 120)"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 1, ease: 'easeInOut' }}
-      />
-      {/* Trip marker (halfway point) */}
-      <motion.line
-        x1={W / 2}
-        y1={pad}
-        x2={W / 2}
-        y2={H - pad}
-        stroke="oklch(0.7 0.11 58)"
-        strokeWidth="1.5"
-        strokeDasharray="2 3"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
-      />
-      <motion.circle
-        cx={W / 2}
-        cy={pad}
-        r="3"
-        fill="oklch(0.7 0.11 58)"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.8, type: 'spring' }}
-      />
-    </svg>
-  )
-}
-
-function MoodTravelLink({ onGoTravel }: { onGoTravel?: () => void }) {
-  return (
-    <motion.section
-      variants={fade}
-      className="rounded-[2rem] border border-border bg-gradient-to-br from-matcha/15 via-card to-honey/15 p-6 shadow-[0_12px_40px_-18px_rgba(120,80,40,0.35)] sm:p-8"
-    >
-      <div className="flex items-center gap-2 text-caramel">
-        <Plane className="size-5" />
-        <span className="font-heading text-sm font-semibold uppercase tracking-wide">
-          Mood–Travel connection
-        </span>
-      </div>
-      <p className="mt-1 mb-5 text-sm text-muted-foreground">
-        How your mood tends to change around trips.
-      </p>
-
-      <div className="space-y-4">
-        {MOOD_TRAVEL_LINK.map((entry, i) => (
-          <motion.div
-            key={entry.trip}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 + i * 0.1, type: 'spring', stiffness: 240, damping: 22 }}
-            className="flex items-center gap-4 rounded-2xl bg-card/70 p-4"
-          >
-            <span className="text-3xl" aria-hidden>
-              {entry.emoji}
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="font-heading text-base font-bold text-foreground">
-                {entry.trip}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Mood was{' '}
-                <span className="font-bold text-matcha-foreground">
-                  {entry.change}% higher
-                </span>{' '}
-                in the week after
-              </p>
-            </div>
-            <MiniSparkline data={entry.sparkline} className="w-28 shrink-0" />
-          </motion.div>
-        ))}
-      </div>
-
-      {onGoTravel && (
-        <motion.button
-          type="button"
-          onClick={onGoTravel}
-          whileTap={{ scale: 0.97 }}
-          className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-caramel transition-transform active:scale-95"
-        >
-          Plan another escape
-          <ArrowRight className="size-4" />
-        </motion.button>
-      )}
-    </motion.section>
-  )
-}
-
-/* ═══════════════════════════════════════
    Main MoodAnalytics Page
    ═══════════════════════════════════════ */
 export function MoodAnalytics({
@@ -633,47 +515,6 @@ export function MoodAnalytics({
 
       {/* 7. Recent Reflections */}
       <RecentReflections journal={journal} />
-
-      {/* 8. Mood–Travel Connection */}
-      <MoodTravelLink onGoTravel={onGoTravel} />
-
-      {/* 9. Feeling Mix (existing, moved to bottom) */}
-      <motion.section
-        variants={fade}
-        className="rounded-[2rem] border border-border bg-card p-6 shadow-[0_12px_40px_-18px_rgba(120,80,40,0.35)] sm:p-8"
-      >
-        <div className="flex items-center gap-2 text-caramel">
-          <Activity className="size-5" />
-          <span className="font-heading text-sm font-semibold uppercase tracking-wide">
-            Feeling mix
-          </span>
-        </div>
-        <ul className="mt-5 space-y-3">
-          {MOODS.map((mood, i) => {
-            const pct = [10, 20, 28, 30, 12][i]
-            const Icon = mood.icon
-            return (
-              <li key={mood.id} className="flex items-center gap-3">
-                <Icon className={cn('size-5 shrink-0', mood.iconColor)} strokeWidth={2.2} />
-                <span className="w-16 shrink-0 text-xs font-bold text-foreground">
-                  {mood.label}
-                </span>
-                <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-secondary">
-                  <motion.div
-                    className={cn('h-full rounded-full', mood.bg)}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${pct}%` }}
-                    transition={{ duration: 0.9, delay: 0.2 + i * 0.08, ease: 'easeOut' }}
-                  />
-                </div>
-                <span className="w-9 shrink-0 text-right text-xs font-semibold text-muted-foreground">
-                  {pct}%
-                </span>
-              </li>
-            )
-          })}
-        </ul>
-      </motion.section>
     </motion.div>
   )
 }

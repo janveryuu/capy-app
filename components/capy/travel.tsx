@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
 import { AnimatePresence, motion } from 'motion/react'
 import {
   MapPin,
@@ -17,7 +16,6 @@ import {
 } from 'lucide-react'
 import {
   UPCOMING_TRIP,
-  MEMORIES,
   PLANNED_TRIPS,
   type PlannedTrip,
 } from '@/lib/capy-data'
@@ -127,49 +125,6 @@ function TripCard({ trip, index, onOpen }: { trip: PlannedTrip; index: number; o
         </button>
       </div>
     </motion.article>
-  )
-}
-
-function PolaroidGallery() {
-  return (
-    <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-8 sm:gap-x-6">
-      {MEMORIES.map((m, i) => (
-        <motion.figure
-          key={m.id}
-          initial={{ opacity: 0, y: 24, rotate: 0 }}
-          animate={{ opacity: 1, y: 0, rotate: m.rotate }}
-          transition={{ delay: 0.1 + i * 0.1, type: 'spring', stiffness: 200, damping: 18 }}
-          whileHover={{
-            rotate: 0,
-            scale: 1.08,
-            y: -14,
-            zIndex: 20,
-            transition: { type: 'spring', stiffness: 300, damping: 18 },
-          }}
-          className="group relative w-40 cursor-pointer rounded-md bg-card p-2.5 pb-10 shadow-[0_14px_30px_-12px_rgba(120,80,40,0.5)] sm:w-44"
-          style={{ rotate: `${m.rotate}deg` }}
-        >
-          {/* Tape decoration */}
-          <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10 h-5 w-10 rounded-sm bg-honey/40 backdrop-blur-sm rotate-[-2deg] shadow-sm" />
-          
-          <div className="relative aspect-square overflow-hidden rounded-sm bg-muted">
-            <Image
-              src={m.src || '/placeholder.svg'}
-              alt={`${m.caption} in ${m.location}`}
-              fill
-              sizes="180px"
-              className="object-cover transition-all duration-500 ease-out [filter:saturate(0.8)_blur(0.8px)_sepia(0.15)] group-hover:[filter:saturate(1.15)_blur(0px)_sepia(0)] group-hover:scale-105"
-            />
-          </div>
-          <figcaption className="absolute inset-x-0 bottom-2 px-2 text-center">
-            <p className="font-heading text-sm font-bold leading-tight text-foreground">
-              {m.caption}
-            </p>
-            <p className="text-[0.65rem] font-semibold text-muted-foreground">{m.location}</p>
-          </figcaption>
-        </motion.figure>
-      ))}
-    </div>
   )
 }
 
@@ -376,16 +331,31 @@ export function Travel() {
                 variants={fade}
                 className="rounded-[2rem] border border-border bg-card p-6 shadow-[0_12px_40px_-18px_rgba(120,80,40,0.35)] sm:p-8"
               >
-                <div className="mb-2 flex items-center gap-2 text-caramel">
+                <div className="mb-5 flex items-center gap-2 text-caramel">
                   <Images className="size-5" />
                   <span className="font-heading text-sm font-semibold uppercase tracking-wide">
                     Memories
                   </span>
                 </div>
-                <p className="mb-8 text-sm text-muted-foreground">
-                  Scattered little Polaroids from past wanders. Hover to peek closer.
-                </p>
-                <PolaroidGallery />
+                
+                <div className="flex flex-col items-center justify-center gap-4 rounded-[1.5rem] border-2 border-dashed border-border/60 bg-card/30 py-12 text-center">
+                  <div className="grid size-12 place-items-center rounded-2xl bg-secondary text-muted-foreground">
+                    <Images className="size-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-heading text-lg font-bold text-foreground">No memories yet</h4>
+                    <p className="mt-1 text-sm text-muted-foreground">Add photos from your past trips to see them here.</p>
+                  </div>
+                  <motion.button
+                    type="button"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="mt-2 inline-flex items-center gap-2 rounded-full bg-caramel px-5 py-2.5 text-sm font-bold text-caramel-foreground shadow-sm transition-all hover:bg-caramel/90"
+                  >
+                    <Plus className="size-4" strokeWidth={2.6} />
+                    Add memories
+                  </motion.button>
+                </div>
               </motion.section>
             </motion.div>
           )}

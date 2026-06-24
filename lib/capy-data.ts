@@ -693,44 +693,6 @@ export type PlannedTrip = {
 
 export const PLANNED_TRIPS: PlannedTrip[] = []
 
-export type Memory = {
-  id: string
-  src: string
-  caption: string
-  location: string
-  rotate: number
-}
-
-export const MEMORIES: Memory[] = [
-  {
-    id: 'onsen',
-    src: '/memory-onsen.png',
-    caption: 'Yuzu bath bliss',
-    location: 'Hakone',
-    rotate: -6,
-  },
-  {
-    id: 'beach',
-    src: '/memory-beach.png',
-    caption: 'Golden hour toes',
-    location: 'Okinawa',
-    rotate: 4,
-  },
-  {
-    id: 'forest',
-    src: '/memory-forest.png',
-    caption: 'Misty fern walk',
-    location: 'Yakushima',
-    rotate: -3,
-  },
-  {
-    id: 'city',
-    src: '/memory-city.png',
-    caption: 'Lantern wander',
-    location: 'Gion',
-    rotate: 7,
-  },
-]
 
 /* ═══════════════════════════════════════════════
    MOOD SECTION ENHANCEMENTS — Seed Data
@@ -804,31 +766,3 @@ export const MOOD_INSIGHTS: string[] = [
   'Welcome to Capy! Start logging your moods to see gentle insights here. 🧋',
 ]
 
-/** Mood–Travel connection data (Feature 7). */
-export type MoodTravelEntry = {
-  trip: string
-  emoji: string
-  before: number
-  after: number
-  change: number
-  sparkline: number[]
-}
-
-export const MOOD_TRAVEL_LINK: MoodTravelEntry[] = [
-  {
-    trip: 'Okinawa',
-    emoji: '🏝️',
-    before: 3.2,
-    after: 4.5,
-    change: 23,
-    sparkline: [3.0, 3.1, 3.4, 3.2, 4.2, 4.6, 4.8, 4.5, 4.3, 4.0],
-  },
-  {
-    trip: 'Gion',
-    emoji: '🏮',
-    before: 2.8,
-    after: 4.1,
-    change: 31,
-    sparkline: [2.6, 2.8, 3.0, 2.8, 3.8, 4.2, 4.4, 4.1, 3.9, 3.6],
-  },
-]
