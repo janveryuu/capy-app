@@ -53,11 +53,22 @@ export function AddMemoryModal({
   const [caption, setCaption] = useState('')
   const [location, setLocation] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isCameraOpen, setIsCameraOpen] = useState(false)
 
-  const cameraInputRef = useRef<HTMLInputElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const streamRef = useRef<MediaStream | null>(null)
 
   useEffect(() => setMounted(true), [])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(t => t.stop())
+      }
+    }
+  }, [])
 
   useEffect(() => {
     if (!open) return
@@ -73,6 +84,11 @@ export function AddMemoryModal({
   // Reset state when closed
   useEffect(() => {
     if (!open) {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(t => t.stop())
+        streamRef.current = null
+      }
+      setIsCameraOpen(false)
       setTimeout(() => {
         setSrc('')
         setCaption('')
@@ -81,6 +97,65 @@ export function AddMemoryModal({
       }, 300)
     }
   }, [open])
+
+  // Attach video stream when camera opens
+  useEffect(() => {
+    if (isCameraOpen && videoRef.current && streamRef.current) {
+      videoRef.current.srcObject = streamRef.current
+    }
+  }, [isCameraOpen])
+
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: 'environment' } 
+      })
+      streamRef.current = stream
+      setIsCameraOpen(true)
+    } catch (err) {
+      console.error('Failed to access camera:', err)
+      alert("Could not access camera. Please check permissions or use 'Upload'.")
+    }
+  }
+
+  const stopCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(t => t.stop())
+      streamRef.current = null
+    }
+    setIsCameraOpen(false)
+  }
+
+  const capturePhoto = () => {
+    if (!videoRef.current) return
+    const canvas = document.createElement('canvas')
+    const video = videoRef.current
+    
+    const MAX_SIZE = 800
+    let width = video.videoWidth
+    let height = video.videoHeight
+    
+    if (width > height) {
+      if (width > MAX_SIZE) {
+        height *= MAX_SIZE / width
+        width = MAX_SIZE
+      }
+    } else {
+      if (height > MAX_SIZE) {
+        width *= MAX_SIZE / height
+        height = MAX_SIZE
+      }
+    }
+    
+    canvas.width = width
+    canvas.height = height
+    const ctx = canvas.getContext('2d')
+    ctx?.drawImage(video, 0, 0, width, height)
+    
+    const base64 = canvas.toDataURL('image/jpeg', 0.8)
+    setSrc(base64)
+    stopCamera()
+  }
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -147,49 +222,71 @@ export function AddMemoryModal({
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {!src ? (
-                <div className="flex flex-col gap-3">
-                  <div className="flex aspect-square w-full flex-col items-center justify-center gap-4 rounded-[1.5rem] border-2 border-dashed border-border/60 bg-secondary/30 p-6 text-center transition-colors">
-                    <div className="grid size-12 place-items-center rounded-full bg-secondary text-muted-foreground">
-                      <Camera className="size-6" />
+                isCameraOpen ? (
+                  <div className="flex flex-col gap-3">
+                    <div className="relative aspect-square w-full overflow-hidden rounded-[1.5rem] bg-black">
+                      <video
+                        ref={videoRef}
+                        autoPlay
+                        playsInline
+                        muted
+                        className="h-full w-full object-cover"
+                      />
                     </div>
-                    <div>
-                      <p className="font-heading text-lg font-bold text-foreground">Add a photo</p>
-                      <p className="mt-1 text-xs text-muted-foreground">Take a quick snap or upload one</p>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={stopCamera}
+                        className="flex flex-1 items-center justify-center gap-2 rounded-[1rem] bg-secondary py-3 text-sm font-bold text-foreground transition-colors hover:bg-secondary/80"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        onClick={capturePhoto}
+                        className="flex flex-1 items-center justify-center gap-2 rounded-[1rem] bg-caramel py-3 text-sm font-bold text-caramel-foreground transition-colors hover:bg-caramel/90"
+                      >
+                        <Camera className="size-4" /> Capture
+                      </button>
                     </div>
                   </div>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    <div className="flex aspect-square w-full flex-col items-center justify-center gap-4 rounded-[1.5rem] border-2 border-dashed border-border/60 bg-secondary/30 p-6 text-center transition-colors">
+                      <div className="grid size-12 place-items-center rounded-full bg-secondary text-muted-foreground">
+                        <Camera className="size-6" />
+                      </div>
+                      <div>
+                        <p className="font-heading text-lg font-bold text-foreground">Add a photo</p>
+                        <p className="mt-1 text-xs text-muted-foreground">Take a quick snap or upload one</p>
+                      </div>
+                    </div>
 
-                  <div className="flex gap-2">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      capture="environment"
-                      ref={cameraInputRef}
-                      className="hidden"
-                      onChange={handleFile}
-                    />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      ref={fileInputRef}
-                      className="hidden"
-                      onChange={handleFile}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => cameraInputRef.current?.click()}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-[1rem] bg-caramel/10 py-3 text-sm font-bold text-caramel transition-colors hover:bg-caramel/20"
-                    >
-                      <Camera className="size-4" /> Take photo
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-[1rem] bg-secondary py-3 text-sm font-bold text-foreground transition-colors hover:bg-secondary/80"
-                    >
-                      <Upload className="size-4" /> Upload
-                    </button>
+                    <div className="flex gap-2">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        className="hidden"
+                        onChange={handleFile}
+                      />
+                      <button
+                        type="button"
+                        onClick={startCamera}
+                        className="flex flex-1 items-center justify-center gap-2 rounded-[1rem] bg-caramel/10 py-3 text-sm font-bold text-caramel transition-colors hover:bg-caramel/20"
+                      >
+                        <Camera className="size-4" /> Take photo
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="flex flex-1 items-center justify-center gap-2 rounded-[1rem] bg-secondary py-3 text-sm font-bold text-foreground transition-colors hover:bg-secondary/80"
+                      >
+                        <Upload className="size-4" /> Upload
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )
               ) : (
                 <div className="space-y-5">
                   <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border shadow-sm">
