@@ -8,6 +8,9 @@ const nextConfig = {
   },
   experimental: {
     serverExternalPackages: ['pg', 'bcryptjs', '@prisma/client', '@prisma/adapter-pg'],
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
   },
 }
 

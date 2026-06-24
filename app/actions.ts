@@ -127,8 +127,13 @@ export async function getMemories() {
   const session = await auth()
   if (!session?.user?.id) return []
 
-  return await prisma.memory.findMany({
+  const memories = await prisma.memory.findMany({
     where: { userId: session.user.id },
     orderBy: { createdAt: 'desc' },
   })
+
+  return memories.map(m => ({
+    ...m,
+    createdAt: m.createdAt.toISOString()
+  }))
 }
