@@ -6,8 +6,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  serverExternalPackages: ['pg', 'bcryptjs', '@prisma/client', '@prisma/adapter-pg'],
   experimental: {
-    serverExternalPackages: ['pg', 'bcryptjs', '@prisma/client', '@prisma/adapter-pg'],
     serverActions: {
       bodySizeLimit: '10mb',
     },

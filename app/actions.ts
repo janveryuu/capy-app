@@ -3,11 +3,20 @@
 import { revalidatePath } from 'next/cache'
 import { auth } from '@/auth'
 import { PrismaClient } from '@prisma/client'
-import { MOODS, type MoodEntry } from '@/lib/capy-data'
-// Use a global PrismaClient to avoid exhausting connections in dev
+import { Pool } from 'pg'
+import { PrismaPg } from '@prisma/adapter-pg'
+
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
-const prisma = globalForPrisma.prisma || new PrismaClient()
+
+const connectionString = `${process.env.DATABASE_URL}`
+const pool = new Pool({ connectionString })
+const adapter = new PrismaPg(pool)
+
+const prisma = globalForPrisma.prisma || new PrismaClient({ adapter })
+
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+
+import { MOODS, type MoodEntry } from '@/lib/capy-data'
 
 /**
  * Mood Entries
