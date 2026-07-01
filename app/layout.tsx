@@ -29,6 +29,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   colorScheme: 'light',
   themeColor: '#f6efe2',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export default function RootLayout({
@@ -39,6 +43,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`light ${fredoka.variable} ${nunito.variable} ${geistMono.variable} bg-background`}
     >
       <body className="font-sans antialiased">
