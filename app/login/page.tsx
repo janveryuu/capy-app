@@ -8,11 +8,22 @@ export const metadata: Metadata = {
   title: 'Login - Capy',
 }
 
+const APP_MODE = process.env.NEXT_PUBLIC_APP_MODE
+
 export default async function LoginPage() {
   const session = await auth()
   
   if (session) {
     redirect('/')
+  }
+
+  // Force the correct UI per deployment, with responsive fallback for local dev.
+  if (APP_MODE === 'mobile') {
+    return <CapyMobileAuth />
+  }
+
+  if (APP_MODE === 'web') {
+    return <CapyAuth />
   }
 
   return (

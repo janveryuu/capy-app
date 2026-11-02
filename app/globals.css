@@ -64,30 +64,30 @@
 }
 
 :root {
-  color-scheme: light;
-  /* Cream / off-white background */
-  --background: oklch(0.971 0.018 78);
-  /* Rich espresso text */
-  --foreground: oklch(0.31 0.045 52);
-  /* Warm tan cards */
-  --card: oklch(0.985 0.014 84);
-  --card-foreground: oklch(0.31 0.045 52);
-  --popover: oklch(0.985 0.014 84);
-  --popover-foreground: oklch(0.31 0.045 52);
+  color-scheme: dark;
+  /* Deep black background */
+  --background: oklch(0.12 0.005 50);
+  /* Crisp light text */
+  --foreground: oklch(0.96 0.008 60);
+  /* Sleek dark cards */
+  --card: oklch(0.16 0.008 50);
+  --card-foreground: oklch(0.96 0.008 60);
+  --popover: oklch(0.16 0.008 50);
+  --popover-foreground: oklch(0.96 0.008 60);
   /* Soft caramel primary */
   --primary: oklch(0.7 0.11 58);
   --primary-foreground: oklch(0.99 0.01 84);
-  /* Warm tan secondary */
-  --secondary: oklch(0.92 0.035 78);
-  --secondary-foreground: oklch(0.36 0.05 52);
-  --muted: oklch(0.93 0.025 80);
-  --muted-foreground: oklch(0.52 0.04 58);
+  /* Sleek dark secondary */
+  --secondary: oklch(0.20 0.01 50);
+  --secondary-foreground: oklch(0.96 0.008 60);
+  --muted: oklch(0.20 0.01 50);
+  --muted-foreground: oklch(0.68 0.02 60);
   /* Pastel matcha accent */
-  --accent: oklch(0.88 0.07 135);
-  --accent-foreground: oklch(0.34 0.06 130);
+  --accent: oklch(0.28 0.04 135);
+  --accent-foreground: oklch(0.90 0.05 135);
   --destructive: oklch(0.62 0.18 25);
-  --border: oklch(0.89 0.03 75);
-  --input: oklch(0.91 0.03 78);
+  --border: oklch(0.24 0.012 50);
+  --input: oklch(0.24 0.012 50);
   --ring: oklch(0.7 0.11 58);
   --chart-1: oklch(0.7 0.11 58);
   --chart-2: oklch(0.8 0.1 90);
@@ -96,10 +96,10 @@
   --chart-5: oklch(0.5 0.08 52);
   --radius: 1.25rem;
   /* Custom capybara tokens */
-  --matcha: oklch(0.86 0.08 138);
-  --matcha-foreground: oklch(0.34 0.06 130);
-  --honey: oklch(0.88 0.11 92);
-  --honey-foreground: oklch(0.42 0.08 70);
+  --matcha: oklch(0.75 0.09 138);
+  --matcha-foreground: oklch(0.95 0.04 130);
+  --honey: oklch(0.78 0.11 85);
+  --honey-foreground: oklch(0.98 0.04 70);
   --caramel: oklch(0.7 0.11 58);
   --caramel-foreground: oklch(0.99 0.01 84);
   /* Mobile mood accents */
@@ -108,49 +108,55 @@
   --mood-okay: oklch(0.8 0.09 75);
   --mood-low: oklch(0.74 0.08 250);
   --mood-tender: oklch(0.78 0.1 20);
-  --cream: oklch(0.967 0.014 76);
-  --sidebar: oklch(0.985 0.014 84);
-  --sidebar-foreground: oklch(0.31 0.045 52);
+  --cream: oklch(0.18 0.01 50);
+  --sidebar: oklch(0.14 0.008 50);
+  --sidebar-foreground: oklch(0.96 0.008 60);
   --sidebar-primary: oklch(0.7 0.11 58);
   --sidebar-primary-foreground: oklch(0.99 0.01 84);
-  --sidebar-accent: oklch(0.88 0.07 135);
-  --sidebar-accent-foreground: oklch(0.34 0.06 130);
-  --sidebar-border: oklch(0.89 0.03 75);
+  --sidebar-accent: oklch(0.28 0.04 135);
+  --sidebar-accent-foreground: oklch(0.90 0.05 135);
+  --sidebar-border: oklch(0.24 0.012 50);
   --sidebar-ring: oklch(0.7 0.11 58);
 }
 
 .dark {
   color-scheme: dark;
-  --background: oklch(0.18 0.02 50);
-  --foreground: oklch(0.95 0.02 60);
-  --card: oklch(0.22 0.02 50);
-  --card-foreground: oklch(0.95 0.02 60);
-  --popover: oklch(0.22 0.02 50);
-  --popover-foreground: oklch(0.95 0.02 60);
+  --background: oklch(0.12 0.005 50);
+  --foreground: oklch(0.96 0.008 60);
+  --card: oklch(0.16 0.008 50);
+  --card-foreground: oklch(0.96 0.008 60);
+  --popover: oklch(0.16 0.008 50);
+  --popover-foreground: oklch(0.96 0.008 60);
   --primary: oklch(0.7 0.11 58);
   --primary-foreground: oklch(0.99 0.01 84);
-  --secondary: oklch(0.28 0.03 50);
-  --secondary-foreground: oklch(0.95 0.02 60);
-  --muted: oklch(0.28 0.03 50);
-  --muted-foreground: oklch(0.7 0.03 60);
-  --accent: oklch(0.3 0.04 135);
-  --accent-foreground: oklch(0.88 0.07 135);
+  --secondary: oklch(0.20 0.01 50);
+  --secondary-foreground: oklch(0.96 0.008 60);
+  --muted: oklch(0.20 0.01 50);
+  --muted-foreground: oklch(0.68 0.02 60);
+  --accent: oklch(0.28 0.04 135);
+  --accent-foreground: oklch(0.90 0.05 135);
   --destructive: oklch(0.62 0.18 25);
-  --border: oklch(0.3 0.03 50);
-  --input: oklch(0.3 0.03 50);
+  --border: oklch(0.24 0.012 50);
+  --input: oklch(0.24 0.012 50);
   --ring: oklch(0.7 0.11 58);
   --chart-1: oklch(0.7 0.11 58);
   --chart-2: oklch(0.8 0.1 90);
   --chart-3: oklch(0.78 0.09 135);
   --chart-4: oklch(0.62 0.1 48);
   --chart-5: oklch(0.5 0.08 52);
-  --sidebar: oklch(0.22 0.02 50);
-  --sidebar-foreground: oklch(0.95 0.02 60);
+  --matcha: oklch(0.75 0.09 138);
+  --matcha-foreground: oklch(0.95 0.04 130);
+  --honey: oklch(0.78 0.11 85);
+  --honey-foreground: oklch(0.98 0.04 70);
+  --caramel: oklch(0.7 0.11 58);
+  --caramel-foreground: oklch(0.99 0.01 84);
+  --sidebar: oklch(0.14 0.008 50);
+  --sidebar-foreground: oklch(0.96 0.008 60);
   --sidebar-primary: oklch(0.7 0.11 58);
   --sidebar-primary-foreground: oklch(0.99 0.01 84);
-  --sidebar-accent: oklch(0.3 0.04 135);
-  --sidebar-accent-foreground: oklch(0.88 0.07 135);
-  --sidebar-border: oklch(0.3 0.03 50);
+  --sidebar-accent: oklch(0.28 0.04 135);
+  --sidebar-accent-foreground: oklch(0.90 0.05 135);
+  --sidebar-border: oklch(0.24 0.012 50);
   --sidebar-ring: oklch(0.7 0.11 58);
 }
 
@@ -164,19 +170,10 @@
   body {
     @apply bg-background text-foreground;
   }
-  html:not(.dark) body {
-    /* Subtle warm vignette so the cream canvas feels soft and lit */
+  html body {
     background-image: radial-gradient(
       130% 80% at 50% -10%,
-      oklch(0.94 0.04 70) 0%,
-      transparent 60%
-    );
-    background-attachment: fixed;
-  }
-  html.dark body {
-    background-image: radial-gradient(
-      130% 80% at 50% -10%,
-      oklch(0.25 0.03 50) 0%,
+      oklch(0.18 0.015 50) 0%,
       transparent 60%
     );
     background-attachment: fixed;
@@ -198,10 +195,10 @@
   }
   /* Soft, diffused shadow used across Capy mobile cards */
   .shadow-cozy {
-    box-shadow: 0 10px 30px -12px oklch(0.5 0.08 60 / 0.25);
+    box-shadow: 0 10px 30px -12px oklch(0 0 0 / 0.5);
   }
   .shadow-cozy-lg {
-    box-shadow: 0 20px 45px -15px oklch(0.5 0.08 60 / 0.32);
+    box-shadow: 0 20px 45px -15px oklch(0 0 0 / 0.6);
   }
 }
 
@@ -228,19 +225,16 @@
 /* Soft dotted paper texture for the app backdrop */
 .capy-paper {
   background-image: radial-gradient(
-    oklch(0.7 0.11 58 / 0.08) 1.5px,
+    oklch(0.7 0.11 58 / 0.1) 1.5px,
     transparent 1.5px
   );
   background-size: 22px 22px;
 }
 
-html:not(.dark) .capy-glass {
-  background: oklch(0.99 0.01 84 / 0.6);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
+.capy-glass,
+html:not(.dark) .capy-glass,
 html.dark .capy-glass {
-  background: oklch(0.22 0.02 50 / 0.6);
+  background: oklch(0.16 0.008 50 / 0.75);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }

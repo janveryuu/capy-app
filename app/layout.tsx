@@ -27,8 +27,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light',
-  themeColor: '#f6efe2',
+  colorScheme: 'dark',
+  themeColor: '#09090b',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -44,7 +44,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`light ${fredoka.variable} ${nunito.variable} ${geistMono.variable} bg-background`}
+      className={`dark ${fredoka.variable} ${nunito.variable} ${geistMono.variable} bg-background`}
     >
       <body className="font-sans antialiased">
         <Providers>

@@ -349,7 +349,7 @@ export function CapyChat() {
       <div
         ref={scrollRef}
         className="flex-1 space-y-4 overflow-y-auto px-1 py-5 scrollbar-thin"
-        style={{ scrollbarColor: 'oklch(0.89 0.03 75) transparent' }}
+        style={{ scrollbarColor: 'var(--border) transparent' }}
       >
         {displayMessages.map((msg, i) => (
           <ChatBubble key={msg.id} message={msg} index={i} />

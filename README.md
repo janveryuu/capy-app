@@ -17,6 +17,11 @@
 
 Welcome to **Capy**! A beautiful, warm, and interactive web application designed to help you track your mental wellbeing, plan your next relaxing getaway, and chat with an AI companion—all wrapped in an incredibly cozy, Capybara-themed interface.
 
+## 🌐 Live Demos
+
+- **🖥️ Web Version:** [https://capy-app-fawn.vercel.app/](https://capy-app-fawn.vercel.app/)
+- **📱 Mobile Version:** [https://capy-app-wtj1.vercel.app/login](https://capy-app-wtj1.vercel.app/login)
+
 ## ✨ Features
 
 - 🌿 **Mood Analytics & Journaling:** Log your daily emotions with tags and notes. Visualize your mental wellbeing over time with a beautiful GitHub-style mood heatmap.

@@ -107,7 +107,7 @@ export function BreatheWithCapy() {
               cy="90"
               r={ringRadius}
               fill="none"
-              stroke="oklch(0.89 0.03 75)"
+              stroke="var(--border)"
               strokeWidth="4"
             />
             {/* progress */}

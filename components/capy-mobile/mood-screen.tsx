@@ -345,7 +345,7 @@ function AreaChart() {
             x2={W - pad.right}
             y1={y}
             y2={y}
-            stroke="oklch(0.89 0.03 75)"
+            stroke="var(--border)"
             strokeWidth="1"
             strokeDasharray="2 6"
           />
@@ -373,7 +373,7 @@ function AreaChart() {
       {pts.map((p, i) => (
         <g key={i}>
           <motion.circle
-            cx={p.x} cy={p.y} r="5" fill="oklch(0.985 0.014 84)"
+            cx={p.x} cy={p.y} r="5" fill="var(--card)"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.5 + i * 0.08, type: 'spring', stiffness: 300 }}
